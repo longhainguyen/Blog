@@ -1,9 +1,34 @@
-export default function LoginPage () {
+import { useState } from "react";
+
+export default function LoginPage() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    async function login(ev) {
+        ev.preventDefault();
+        const response = await fetch('http://localhost:4000/login', {
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+        if (response.status === 200) {
+            alert('registration successful');
+        } else {
+            alert('registration failed');
+        }
+    }
     return (
-        <form action="" className="login"> 
+        <form className="login" onSubmit={login}>
             <h1>Login</h1>
-            <input type="text" placeholder="user name"></input>
-            <input type="text" placeholder="password"></input>
+            <input type="text"
+                placeholder="user name"
+                value={username}
+                onChange={ev => setUsername(ev.target.value)}>
+            </input>
+            <input type="text"
+                placeholder="password"
+                value={password}
+                onChange={ev => setPassword(ev.target.value)}>
+            </input>
             <button>Login</button>
         </form>
     )
