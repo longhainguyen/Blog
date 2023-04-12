@@ -1,5 +1,6 @@
 import './App.css';
 import Layout from './Layout';
+import { UserContextProvider } from './UserContext';
 import Header from './header';
 import IndexPage from './pages/indexPage';
 import LoginPage from './pages/loginPage';
@@ -9,13 +10,15 @@ import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <Routes >
-      <Route path='/' element={<Layout />}>
-        <Route index element={<IndexPage />} />
-        <Route path={'/login'} element={<LoginPage />} />
-        <Route path={'/register'} element={<RegisterPage />} />
-      </Route>
-    </Routes >
+    <UserContextProvider>
+      <Routes >
+        <Route path='/' element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path={'/login'} element={<LoginPage />} />
+          <Route path={'/register'} element={<RegisterPage />} />
+        </Route>
+      </Routes >
+    </UserContextProvider>
   );
 }
 

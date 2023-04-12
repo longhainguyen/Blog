@@ -5,15 +5,19 @@ export default function RegisterPage() {
     const [password, setPassword] = useState('');
     async function register(ev) {
         ev.preventDefault();
-        const response = await fetch('http://localhost:4000/register', {
-            method: 'POST',
-            body: JSON.stringify({ username, password }),
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if (response.status === 200) {
-            alert('registration successful');
-        } else {
-            alert('registration failed');
+        try {
+            const response = await fetch('http://localhost:4000/register', {
+                method: 'POST',
+                body: JSON.stringify({ username, password }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (response.status === 200) {
+                alert('registration successful');
+            } else {
+                alert('registration failed');
+            }
+        } catch (e) {
+            alert('registration failed')
         }
     }
     return (
@@ -24,7 +28,7 @@ export default function RegisterPage() {
                 value={username}
                 onChange={ev => setUsername(ev.target.value)}>
             </input>
-            <input type="text"
+            <input type="password"
                 placeholder="password"
                 value={password}
                 onChange={ev => setPassword(ev.target.value)}>

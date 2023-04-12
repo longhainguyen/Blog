@@ -1,4 +1,6 @@
+const { raw } = require('express');
 const db = require('../models/index');
+const bcrypt = require('bcryptjs')
 
 let findUser = async (data) => {
     return new Promise(async (resolve, reject) => {
@@ -6,10 +8,10 @@ let findUser = async (data) => {
             let user = await db.User.findAll({
                 where: {
                   name: data.username,
-                  password: data.password,
-                }
+                },
+                raw:true,
               });
-            reject('find sucessfull');
+            resolve(user);
         } catch (error) {
             reject('fail find user');
         }
