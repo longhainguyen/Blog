@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext,useState } from "react";
+import {Navigate} from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [redirect, setRedirect] = useState(false);
+    const {setUserInfo} = useContext(UserContext);
     async function register(ev) {
         ev.preventDefault();
         try {
@@ -10,15 +14,22 @@ export default function RegisterPage() {
                 method: 'POST',
                 body: JSON.stringify({ username, password }),
                 headers: { 'Content-Type': 'application/json' },
+                credentials:'include',
             });
-            if (response.status === 200) {
-                alert('registration successful');
-            } else {
-                alert('registration failed');
+
+            if(response.ok) {
+                response.json().then(userInfo =>{
+                    setRedirect(true);
+                    setUserInfo(userInfo);
+                })
             }
         } catch (e) {
             alert('registration failed')
         }
+    }
+
+    if(redirect) {
+        return <Navigate to={'/'} />
     }
     return (
         <form className="register" onSubmit={register}>
